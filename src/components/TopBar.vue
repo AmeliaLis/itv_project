@@ -1,17 +1,16 @@
 <template>
     <div>
-        <nav class="nav nav-pills nav-fill">
-            <a class="nav-link active" aria-current="page" href="#">Active</a>
-            <a class="nav-link" href="#">Much longer nav link</a>
-            <a class="nav-link" href="#">Link</a>
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </nav>
+        <a><router-link :to="{name: 'login'}">Login</router-link></a>
     </div>
+    <div>
+        <a><router-link :to="{name: 'register'}">Register</router-link></a>
+    </div>
+    <div><button @click="handleSignOut">Sign Out</button></div>
 </template>
 
 
 <script>
     export default {
-        name: "AppTopBar"
+        name: "TopBar"
 }
 </script>

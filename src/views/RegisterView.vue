@@ -1,0 +1,36 @@
+<template>
+    <div>
+        <div>To jest strona z rejestracją</div>
+        <h1>Create an account</h1>
+        <p><input type="text" placeholder="Email" v-model="email" /></p>
+        <p><input type="password" placeholder="Password" v-model="password" /></p>
+        <p><button @click="registerOnSubmit">Submit</button></p>
+        <p><button @click="signInWithGoogle">Sign in with Google</button></p>
+    </div>
+</template>
+
+
+<script>
+import { actionTypes } from "@/store/modules/authentication"
+
+export default {
+    name: "RegisterView",
+    data() {
+    return {
+        email: "",
+        password: "",
+        };
+    },
+    methods: {
+      registerOnSubmit(){
+            this.$store.dispatch(actionTypes.register, {
+                email: this.email,
+                password: this.password
+            })
+            .then(() => {
+                this.$router.push({ name: "feed" });
+            })    
+        }
+    },
+}
+</script>

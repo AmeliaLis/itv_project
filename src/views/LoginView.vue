@@ -1,0 +1,39 @@
+<template>
+    <div>
+        <div>To jest strona z logowaniem</div>
+        <h1>Sign in to an account</h1>
+        <p v-if="errorMessage">{{ errorMessage }}</p>
+        <p><input type="text" placeholder="Email" v-model="email" /></p>
+        <p><input type="password" placeholder="Password" v-model="password" /></p>
+        <p><button @click="loginOnSubmit">Submit</button></p>
+        <p><button @click="signInWithGoogle">Sign in with Google</button></p>
+    </div>
+</template>
+
+
+<script>
+import { actionTypes } from "@/store/modules/authentication"
+
+export default {
+    name: "LoginView",
+    data() {
+    return {
+        email: "",
+        password: "",
+        errorMessage: null,
+        };
+    },
+    methods: {
+        loginOnSubmit(){
+            this.$store.dispatch(actionTypes.login, {
+                email: this.email,
+                password: this.password
+            })
+            .then(() => {
+                this.$router.push({ name: "feed" });
+            })    
+        }
+    },
+}
+
+</script>
