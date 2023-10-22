@@ -5,12 +5,37 @@
     <div>
         <a><router-link :to="{name: 'register'}">Register</router-link></a>
     </div>
-    <div><button @click="handleSignOut">Sign Out</button></div>
+    <div><button v-if="isLoggedIn" @click="handleSignOut">Sign Out</button></div>
 </template>
 
 
 <script>
-    export default {
-        name: "TopBar"
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+
+let auth;
+export default {
+    name: "TopBar",
+    data() {
+        return {
+            isLoggedIn: null,
+        }
+    },
+    mounted() {
+        auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.isLoggedIn = true;
+            } else {
+                this.isLoggedIn = false;
+            }
+        })
+    },
+    methods: {
+        handleSignOut() {
+            signOut(auth).then(() => {
+                this.$router.push({name: "home"})
+            })
+        }
+    }
 }
 </script>

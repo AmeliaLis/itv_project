@@ -12,6 +12,8 @@
 
 <script>
 import { actionTypes } from "@/store/modules/authentication"
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 
 export default {
     name: "RegisterView",
@@ -22,7 +24,7 @@ export default {
         };
     },
     methods: {
-      registerOnSubmit(){
+        registerOnSubmit(){
             this.$store.dispatch(actionTypes.register, {
                 email: this.email,
                 password: this.password
@@ -30,7 +32,20 @@ export default {
             .then(() => {
                 this.$router.push({ name: "feed" });
             })    
+        },
+        
+        signInWithGoogle() {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(getAuth(), provider)
+                .then((result) => {
+                    console.log(result.user);
+                    this.$router.push({ name: "feed"});
+                })
+                .catch((error) => {
+                    console.log(error.code)
+                })
         }
+
     },
 }
 </script>

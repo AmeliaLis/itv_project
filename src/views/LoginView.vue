@@ -13,6 +13,7 @@
 
 <script>
 import { actionTypes } from "@/store/modules/authentication"
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export default {
     name: "LoginView",
@@ -32,6 +33,18 @@ export default {
             .then(() => {
                 this.$router.push({ name: "feed" });
             })    
+        },
+
+        signInWithGoogle() {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(getAuth(), provider)
+                .then((result) => {
+                    console.log(result.user);
+                    this.$router.push({ name: "feed"});
+                })
+                .catch((error) => {
+                    console.log(error.code)
+                })
         }
     },
 }
