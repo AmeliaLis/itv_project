@@ -2,7 +2,7 @@
     <div>
         <div>To jest strona z logowaniem</div>
         <h1>Sign in to an account</h1>
-        <p v-if="errorMessage">{{ errorMessage }}</p>
+        <p v-if="this.validationErrors">{{ this.validationErrors }}</p>
         <p><input type="text" placeholder="Email" v-model="email" /></p>
         <p><input type="password" placeholder="Password" v-model="password" /></p>
         <p><button @click="loginOnSubmit">Submit</button></p>
@@ -14,6 +14,7 @@
 <script>
 import { actionTypes } from "@/store/modules/authentication"
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { mapState } from "vuex";
 
 export default {
     name: "LoginView",
@@ -21,9 +22,15 @@ export default {
     return {
         email: "",
         password: "",
-        errorMessage: null,
         };
     },
+
+    computed: {
+        ...mapState({
+            validationErrors: (state) => state.authentication.validationErrors
+        })
+    },
+
     methods: {
         loginOnSubmit(){
             this.$store.dispatch(actionTypes.login, {

@@ -2,6 +2,7 @@
     <div>
         <div>To jest strona z rejestracją</div>
         <h1>Create an account</h1>
+        <p v-if="this.validationErrors">{{ this.validationErrors }}</p>
         <p><input type="text" placeholder="Email" v-model="email" /></p>
         <p><input type="password" placeholder="Password" v-model="password" /></p>
         <p><button @click="registerOnSubmit">Submit</button></p>
@@ -13,6 +14,7 @@
 <script>
 import { actionTypes } from "@/store/modules/authentication"
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { mapState } from "vuex";
 
 
 export default {
@@ -22,6 +24,11 @@ export default {
         email: "",
         password: "",
         };
+    },
+    computed: {
+    ...mapState({
+        validationErrors: (state) => state.authentication.validationErrors,
+    }),
     },
     methods: {
         registerOnSubmit(){
