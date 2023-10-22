@@ -5,6 +5,7 @@ import LoginView from "@/views/LoginView";
 import RegisterView from "@/views/RegisterView";
 import HomeView from "@/views/HomeView";
 import FeedView from "@/views/FeedView";
+import MovieView from "@/views/MovieView";
 
 
 const routes = [
@@ -33,6 +34,15 @@ const routes = [
         component: FeedView,
         meta: {
             requiresAuth: true,
+        }
+    },
+
+    {
+        path: "/movie/:id",
+        name: "movie",
+        component: MovieView,
+        meta: {
+            requiresAuth: true
         }
     }
 ]
