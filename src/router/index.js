@@ -6,6 +6,7 @@ import RegisterView from "@/views/RegisterView";
 import HomeView from "@/views/HomeView";
 import FeedView from "@/views/FeedView";
 import MovieView from "@/views/MovieView";
+import ProfileFavoriteView from "@/views/ProfileFavoriteView"
 
 
 const routes = [
@@ -41,6 +42,15 @@ const routes = [
         path: "/movie/:id",
         name: "movie",
         component: MovieView,
+        meta: {
+            requiresAuth: true
+        }
+    },
+
+    {
+        path: "/profile",
+        name: "userProfile",
+        component: ProfileFavoriteView,
         meta: {
             requiresAuth: true
         }

@@ -4,6 +4,10 @@
         <p>{{ movie.Year }}</p>
         <img :src="movie.Poster" alt="Movie Poster" />
         <p>{{ movie.Plot }}</p>
+        <p>{{ movie.Actors }}</p>
+    </div>
+    <div>
+        <button>Click here to add to your favorites movies</button>
     </div>
 </template>
 
