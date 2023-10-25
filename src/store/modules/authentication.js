@@ -1,6 +1,7 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
 
-
+//isSubmitting is only to disable/enable the button for register/login, I think it's unnecessary as I don't use it -> needs to be deleted
+//also isLoggedIn is state is not needed, as google firebase provides a method to check if a user is logged in or not -> needs to be deleted
 const state = {
     isSubmitting: false,
     isLoggedIn: null,
@@ -18,7 +19,7 @@ export const mutationType = {
     loginFailure: "[auth] Login Failure",
 }
 
-
+//this section of mutations provides a list of states that are going to change when the mutation action is run
 const mutations = {
     [mutationType.registerStart](state) {
       state.isSubmitting = true;
@@ -49,11 +50,14 @@ const mutations = {
 
 export const actionTypes = {
     register: "[authentication] Register",
-    login: "[authentication] Login"
+    login: "[authentication] Login",
+    loginOrRegisterWithGoogle: "[authentication] Sign in with Google"
 }
 
 
 const actions = {
+
+//this action provides a register action with users' email and password
   [actionTypes.register](context, credentials) {
     context.commit(mutationType.registerStart);
     return new Promise((resolve) => {
@@ -70,13 +74,14 @@ const actions = {
     )
   },
 
+//this action provides a login action with users' email and password
   [actionTypes.login](context, credentials) {
     context.commit(mutationType.loginStart);
     return new Promise((resolve) => {
       signInWithEmailAndPassword(getAuth(), credentials.email, credentials.password)
         .then((response) => {
           console.log("Successfully logged in", response);
-          context.commit(mutationType.loginStart)
+          context.commit(mutationType.loginSuccess)
           resolve()
         })
         .catch((error) => {
@@ -84,6 +89,23 @@ const actions = {
         });
       }
     )
+  },
+
+//this action provides a register and login action with google mail
+  [actionTypes.loginOrRegisterWithGoogle](context) {
+    context.commit(mutationType.loginStart)
+    return new Promise((resolve) => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(getAuth(), provider)
+      .then((result) => {
+        console.log(result.user)
+        context.commit(mutationType.loginSuccess)
+        resolve()
+      })
+      .catch((error) => {
+        context.commit(mutationType.loginFailure, error.code)
+      });
+    })
   }
 }
 

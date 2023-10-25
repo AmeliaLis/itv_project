@@ -13,7 +13,7 @@
 
 <script>
 import { actionTypes } from "@/store/modules/authentication"
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+//import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { mapState } from "vuex";
 
 export default {
@@ -43,15 +43,10 @@ export default {
         },
 
         signInWithGoogle() {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(getAuth(), provider)
-                .then((result) => {
-                    console.log(result.user);
-                    this.$router.push({ name: "feed"});
-                })
-                .catch((error) => {
-                    console.log(error.code)
-                })
+            this.$store.dispatch(actionTypes.loginOrRegisterWithGoogle)
+            .then(() => {
+                this.$router.push({ name: "feed" });
+            })   
         }
     },
 }
