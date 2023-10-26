@@ -1,34 +1,31 @@
 <template>
     <div> this is profile page with favorite films</div>
-    {{ favoriteMovies }}
+    {{ data[0]}}
+
 </template>
 
-<script setup>
-import { collection, getDocs } from "firebase/firestore";
+<script>
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/main"
-import { onMounted } from "vue";
-import { ref } from "vue";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const favoriteMovies = ref([])
 
-onMounted(async () => {
-    const querySnapshot = await getDocs(collection(db, "UsersFavoriteFilms"));
-    let favMovies = []
-    console.log(querySnapshot)
-    console.log("jestem w srodku mounted")
-    querySnapshot.forEach((doc) => {
-        console.log(doc)
-        console.log("for each block")
-  // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        const favMovie = {
-            id: doc.id,
-            movie: doc.data().movie,
-            email: doc.data().email
+export default {
+    name: "ProfileFavoriteView",
+    data() {
+        return {
+            data: [],
         }
-        favMovies.push(favMovie)
-    })
-    favoriteMovies.value = favMovies;
-    }
-)
+    },
+    mounted() {
+        
+            onAuthStateChanged(getAuth(), (user) => {
+                console.log(user.uid)
+                const q = query(collection(db, "UsersFavoriteFilms"), where("userId", "==", user.uid))
+                getDocs(q).then((result) => {
+                    result.forEach((doc) => this.data.push(doc.data()));
+                })
+            })
+        }
+}
 </script>
