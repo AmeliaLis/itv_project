@@ -1,6 +1,9 @@
 <template>
     <div> this is profile page with favorite films</div>
-    {{ data[0]}}
+    {{ userId}}
+    <div :v-for="movie in movieData">
+        <div> {{movie.userId}}</div>
+    </div>
 
 </template>
 
@@ -14,18 +17,28 @@ export default {
     name: "ProfileFavoriteView",
     data() {
         return {
-            data: [],
+            movieData: [],
+            userId: undefined
         }
     },
+
+    //to fix
     mounted() {
-        
+        return new Promise((resolve) => {
             onAuthStateChanged(getAuth(), (user) => {
                 console.log(user.uid)
                 const q = query(collection(db, "UsersFavoriteFilms"), where("userId", "==", user.uid))
                 getDocs(q).then((result) => {
-                    result.forEach((doc) => this.data.push(doc.data()));
+                    result.forEach((doc) => {
+                        this.movieData.push(doc.data())
+                        this.userId = doc.data().userId
+                        console.log(this.movie)
+                    });
                 })
+                resolve()
             })
+        })
+            
         }
 }
 </script>
