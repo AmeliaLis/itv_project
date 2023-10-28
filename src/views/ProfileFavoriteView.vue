@@ -1,8 +1,11 @@
 <template>
     <div> this is profile page with favorite films</div>
-    {{ userId}}
-    <div :v-for="movie in movieData">
-        <div> {{movie.userId}}</div>
+    <div class="container-fluid d-flex flex-wrap justify-content-center">
+        <div class="container-fluid d-flex flex-wrap justify-content-center">
+            <div v-for="(movie, index) in favMovies" :key="index">
+                <FavMovie :movieData="movie"></FavMovie>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -11,15 +14,19 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/main"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import FavMovie from "@/components/FavMovie.vue";
 
 
 export default {
     name: "ProfileFavoriteView",
     data() {
         return {
-            movieData: [],
-            userId: undefined
+            favMovies: undefined
         }
+    },
+
+    components: {
+        FavMovie
     },
 
     //to fix
@@ -29,11 +36,7 @@ export default {
                 console.log(user.uid)
                 const q = query(collection(db, "UsersFavoriteFilms"), where("userId", "==", user.uid))
                 getDocs(q).then((result) => {
-                    result.forEach((doc) => {
-                        this.movieData.push(doc.data())
-                        this.userId = doc.data().userId
-                        console.log(this.movie)
-                    });
+                    this.favMovies = result.docs
                 })
                 resolve()
             })
