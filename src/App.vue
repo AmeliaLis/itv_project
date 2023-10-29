@@ -11,11 +11,10 @@
 <script>
 import AppTopBar from './components/TopBar.vue';
 
-
 export default {
   name: 'App',
   components: {
-    AppTopBar
+    AppTopBar,
   }
 }
 </script>
