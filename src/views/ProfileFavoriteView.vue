@@ -1,5 +1,17 @@
 <template>
-    <div> this is profile page with favorite films</div>
+    <div class="text-secondary px-2 py-2 text-center shadow" style="background-color: #fefae0">
+        <div class="py-5">
+          <h1 class="display-5 fw-bold text-black">Check your favorite movies</h1>
+          <div class="col-lg-6 mx-auto">
+            <p class="fs-5 mb-4">Quickly add and remove favorite (or not your favorite) movie from personal library. Check out the details of every film or serie!</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <button type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-3 text-white" style="background-color: #606c38"><router-link :to="{name: 'feed'}" class="text-decoration-none text-white">Go to Feed page and search for more!</router-link></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <div class="container-fluid d-flex flex-wrap justify-content-center">
         <div class="container-fluid d-flex flex-wrap justify-content-center">
             <div v-for="(movie, index) in favMovies" :key="index">
@@ -29,7 +41,6 @@ export default {
         FavMovie
     },
 
-    //to fix
     mounted() {
         return new Promise((resolve) => {
             onAuthStateChanged(getAuth(), (user) => {
@@ -41,7 +52,6 @@ export default {
                 resolve()
             })
         })
-            
-        }
+    }
 }
 </script>

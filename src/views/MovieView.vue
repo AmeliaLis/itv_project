@@ -1,15 +1,33 @@
 <template>
     <div>
-      <h2>{{ movie.Title }}</h2>
-      <p>{{ movie.Year }}</p>
-      <img :src="movie.Poster" alt="Movie Poster" />
-      <p>{{ movie.Plot }}</p>
-      <p>{{ movie.Actors }}</p>
-    </div>
-    <div>
       <button @click="addToFavorites">
         Click here to add to your favorites movies
       </button>
+    </div>
+
+    <div class="post-heading text-center">
+      <a href='{{movie.url}}' target="_blank" style="color: black; text-decoration: none; font-size: 3em">{{movie.Title}}</a>
+          <hr class="w-50 mx-auto pb-4">
+    </div>
+    <div class="container p-3">
+        <div class="row d-flex justify-content-center mx-auto">
+            <div class="col"></div>
+            <div class="col-4">
+                <img :src="movie.Poster" alt="movie poster" class="img-fluid text-center">
+            </div>
+
+            <div class="col-6">
+              <ul class="list-group list-group-flush fs-5">
+                  <li class="list-group-item">Director: {{ movie.Director }}</li>
+                  <li class="list-group-item">Premiere: {{movie.Released}} </li>
+                  <li class="list-group-item">{{ movie.Plot }}</li>
+                  <li class="list-group-item">Actors: {{ movie.Actors }}</li>
+                  <li class="list-group-item"></li>
+              </ul>
+            </div>
+
+            <div class="col"></div>
+        </div>
     </div>
   </template>
   
