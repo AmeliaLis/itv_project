@@ -42,30 +42,15 @@
   </div>
 
 
-  <h1>hej</h1>
-
-
-  <div>
-    <div>
+  <div class="container-fluid d-flex flex-wrap justify-content-center">
+    <div class="container-fluid d-flex flex-wrap justify-content-center">
       <div v-for="movie in foundMovies" :key="movie.imdbID">
         <FoundMovie :movieData="movie"></FoundMovie>
-        <router-link :to="'/movie/' + movie.imdbID">
-          <div>
-            <img :src="movie.Poster" alt="Movie Poster" />
-            <div>{{ movie.Plot }}</div>
-          </div>
-          <div>
-            <p>{{ movie.Year }}</p>
-            <h3>{{ movie.Title }}</h3>
-          </div>
-        </router-link>
+        <router-link :to="'/movie/' + movie.imdbID"></router-link>
       </div>
-      
     </div>
-    <!-- <div v-for="(movie, index) in favMovies" :key="index">
-            <FavMovie :movieData="movie"></FavMovie>
-        </div> -->
-  </div>
+</div>
+
 </template>
 
 <script>

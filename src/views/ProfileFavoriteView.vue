@@ -5,11 +5,21 @@
           <div class="col-lg-6 mx-auto">
             <p class="fs-5 mb-4">Quickly add and remove favorite (or not your favorite) movie from personal library. Check out the details of every film or serie!</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-              <button type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-3 text-white" style="background-color: #606c38"><router-link :to="{name: 'feed'}" class="text-decoration-none text-white">Go to Feed page and search for more!</router-link></button>
+              <button type="button" class="btn btn-outline-secondary btn-lg px-4 text-white" style="background-color: #606c38"><router-link :to="{name: 'feed'}" class="text-decoration-none text-white">Go to Feed page and search for more!</router-link></button>
             </div>
           </div>
         </div>
       </div>
+
+    <div v-if="!favMovies"  class="flex row m-5">
+        <div class="col"></div>
+        <div class="alert alert-dark col-6" role="alert">
+            There are no movies to display. Please add records.
+        </div>
+        <div class="col"></div>
+    </div>
+      
+      
 
 
     <div class="container-fluid d-flex flex-wrap justify-content-center">
