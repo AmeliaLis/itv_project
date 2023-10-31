@@ -1,8 +1,12 @@
 <template>
     <div>
-      <button @click="addToFavorites">
+      <button :disabled="this.message" @click="addToFavorites">
         Click here to add to your favorites movies
       </button>
+    </div>
+
+    <div class="alert" v-if="this.message">
+      <div>{{this.message}}</div>
     </div>
 
     <div class="post-heading text-center">
@@ -34,7 +38,7 @@
   <script>
   import env from "@/env";
   import { onAuthStateChanged, getAuth } from "firebase/auth";
-  import { addDoc, collection } from "firebase/firestore";
+  import { addDoc, collection, where, query, getDocs, and } from "firebase/firestore";
   import { db } from "@/main";
   
   export default {
@@ -52,16 +56,33 @@
     data() {
       return {
         movie: "",
+        message: undefined
       };
     },
     methods: {
       addToFavorites() {
         return new Promise((resolve) => {
           onAuthStateChanged(getAuth(), (user) => {
-            addDoc(collection(db, "UsersFavoriteFilms"), {
-              data: this.movie,
-              userId: user.uid,
-            });
+            console.log(this.movie.imdbID)
+            const q = query(collection(db, "UsersFavoriteFilms"), and(where("userId", "==", user.uid), where("data.imdbID", "==", this.movie.imdbID)))
+            console.log(q)
+
+
+            getDocs(q).then((response) => {
+              console.log(response.docs.length)
+              if (response.docs.length==0) {
+                this.message = "Film has been added to your profile"
+                addDoc(collection(db, "UsersFavoriteFilms"), {
+                  data: this.movie,
+                  userId: user.uid,
+                });
+              } else {
+                console.log("already added")
+                this.message = "Already added";
+              }
+            })
+
+            
             resolve();
           });
         });
