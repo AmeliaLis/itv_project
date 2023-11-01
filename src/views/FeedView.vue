@@ -41,7 +41,6 @@
     </div>
   </div>
 
-
   <div class="container-fluid d-flex flex-wrap justify-content-center">
     <div class="container-fluid d-flex flex-wrap justify-content-center">
       <div v-for="movie in foundMovies" :key="movie.imdbID">
@@ -49,8 +48,7 @@
         <router-link :to="'/movie/' + movie.imdbID"></router-link>
       </div>
     </div>
-</div>
-
+  </div>
 </template>
 
 <script>
@@ -68,7 +66,7 @@ export default {
   },
 
   components: {
-    FoundMovie
+    FoundMovie,
   },
 
   methods: {
@@ -78,7 +76,6 @@ export default {
           .then((response) => response.json())
           .then((data) => {
             this.foundMovies = data.Search;
-            console.log(this.foundMovies)
             this.search = "";
           });
       }

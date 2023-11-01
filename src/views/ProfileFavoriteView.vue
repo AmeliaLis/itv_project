@@ -11,15 +11,13 @@
         </div>
       </div>
 
-    <div v-if="!favMovies"  class="flex row m-5">
+    <div v-if="moviesCount<1"  class="flex row m-5">
         <div class="col"></div>
         <div class="alert alert-dark col-6" role="alert">
             There are no movies to display. Please add records.
         </div>
         <div class="col"></div>
     </div>
-      
-      
 
 
     <div class="container-fluid d-flex flex-wrap justify-content-center">
@@ -43,7 +41,8 @@ export default {
     name: "ProfileFavoriteView",
     data() {
         return {
-            favMovies: undefined
+            favMovies: undefined,
+            moviesCount: 0
         }
     },
 
@@ -54,10 +53,10 @@ export default {
     mounted() {
         return new Promise((resolve) => {
             onAuthStateChanged(getAuth(), (user) => {
-                console.log(user.uid)
                 const q = query(collection(db, "UsersFavoriteFilms"), where("userId", "==", user.uid))
                 getDocs(q).then((result) => {
                     this.favMovies = result.docs
+                    this.moviesCount = result.docs.length
                 })
                 resolve()
             })
