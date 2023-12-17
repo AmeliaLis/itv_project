@@ -25,6 +25,15 @@ npm run lint
 ```
 =======
 
+### Create image in Docker
+```
+docker build -t vuejs-movie-app/dockerize-vuejs-app .
+```
+
+### Run image in Docker
+```
+docker run -it -p 8080:8080 --rm --name dockerize-vuejs-app-1 vuejs-movie-app/dockerize-vuejs-app
+```
 
 
 
