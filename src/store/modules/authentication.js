@@ -109,20 +109,8 @@ const actions = {
   }
 }
 
-
-export const getterTypes = {
-  validationErrors: "[auth] Get validation errors"
-};
-
-const getters = {
-  [getterTypes.validationErrors]: (state) => {
-    return state.validationErrors;
-  },
-}
-
 export default {
     state,
     actions,
     mutations,
-    getters
 };
